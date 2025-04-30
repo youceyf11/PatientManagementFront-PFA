@@ -1,0 +1,164 @@
+PATIENT MANAGEMENT SYSTEM — FULL WORKFLOW
+1. Authentication & Role Access (All Users)
+🔐 User Login / Signup
+
+    Role-based login (Patient, Doctor, Admin, Receptionist)
+
+    Use JWT or session-based authentication
+
+    Frontend: Login form → Auth API
+
+    Backend: Validate → Return token + role data
+
+🧾 Role Redirection
+
+    After login, redirect based on role:
+
+        Admin → Admin Dashboard
+
+        Doctor → Doctor Dashboard
+
+        Patient → Patient Dashboard
+
+        Receptionist → Frontdesk Dashboard
+
+2. Admin Workflow
+👥 Manage Users
+
+    Add/Edit/Delete:
+
+        Doctors
+
+        Receptionists
+
+        Patients (manual entry or from appointment registration)
+
+    Assign roles
+
+🏥 Manage Clinic Info
+
+    Add clinic working hours, services
+
+    Add consultation types (e.g. video, in-person)
+
+📊 View Analytics
+
+    View metrics: patient count, appointments/month, missed appointments
+
+    Revenue summary
+
+3. Doctor Workflow
+🗓 View Schedule
+
+    See daily/weekly appointments calendar
+
+    Filter by date, patient name, etc.
+
+📄 View/Update Medical Records
+
+    Select patient → View medical history
+
+    Add new visit notes
+
+    Add prescription
+
+    Upload files (scans, reports)
+
+💊 Prescribe Medication
+
+    Add medication, dosage, instructions
+
+    Option to download PDF or send to patient dashboard
+
+4. Receptionist Workflow
+📅 Appointment Management
+
+    Book appointment manually for a patient
+
+    View and manage full calendar for all doctors
+
+    Check-in patients as "arrived"
+
+🧾 Billing / Payments
+
+    Generate invoices for appointments
+
+    Mark as paid/unpaid
+
+    Download invoice PDF
+
+5. Patient Workflow
+👤 View Profile
+
+    Update contact info
+
+    View own medical history
+
+    View prescriptions & downloads
+
+📆 Book Appointment
+
+    Select doctor → date → time slot
+
+    Auto-confirmation via email/SMS
+
+🔔 Notifications
+
+    Reminders for appointments
+
+    Medication reminders
+
+💵 Billing History
+
+    View paid/unpaid invoices
+
+    Download receipts
+
+6. Shared Features Across Roles
+
+    🔍 Search Bar: Global search for patient names, doctors, dates
+
+    📁 File Uploads: Upload diagnostic reports, scans
+
+    🧾 PDF Generator: Auto-generate visit summaries or prescriptions
+
+🧱 TECHNICAL NOTES FOR REPLIT AI
+
+Frontend:
+
+    Framework: React (with Role-Based Routing)
+
+    UI Libraries: TailwindCSS or Material UI
+
+Backend:
+
+    Framework: Express.js (or Django if using Python)
+
+    Auth: JWT tokens
+
+    File Upload: Multer (Node.js) or Django FileField
+
+    PDF Generation: html-pdf or jsPDF
+
+    Database: MongoDB or PostgreSQL
+
+APIs to Build:
+
+    /auth/login
+
+    /users/create
+
+    /appointments/create
+
+    /appointments/list
+
+    /patients/:id/records
+
+    /doctors/:id/schedule
+
+    /prescriptions/create
+
+    /invoices/generate
+
+    /notifications/send
+
