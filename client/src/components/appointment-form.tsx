@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
+import {
   Form,
   FormControl,
   FormDescription,
@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -25,7 +25,7 @@ import { InsertAppointment, User } from "@shared/schema";
 
 const appointmentSchema = z.object({
   doctorId: z.string().min(1, { message: "Please select a doctor" }),
-  type: z.string().min(1, { message: "Please select an appointment type" }),
+  type: z.enum(["check_up", "follow_up", "consultation", "emergency", "prescription_refill"]).optional(),
   date: z.string().min(1, { message: "Please select a date" }),
   time: z.string().min(1, { message: "Please select a time" }),
   notes: z.string().optional()
@@ -50,7 +50,7 @@ export function AppointmentForm({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
       doctorId: "",
-      type: "",
+      type: undefined,
       date: "",
       time: "",
       notes: ""
@@ -58,17 +58,16 @@ export function AppointmentForm({
   });
 
   const handleSubmit = (values: z.infer<typeof appointmentSchema>) => {
-    // Convert form values to appointment data format
     const appointmentData: Partial<InsertAppointment> = {
       doctorId: parseInt(values.doctorId),
-      patientId: patientId || 0, // This would come from the current user or be set by admin/receptionist
+      patientId: patientId || 0,
       type: values.type,
-      date: new Date(`${values.date}T${values.time}`), // Combine date and time
-      duration: 30, // Default duration in minutes
+      date: new Date(`${values.date}T${values.time}`),
+      duration: 30,
       status: 'scheduled',
       notes: values.notes
     };
-    
+
     onSubmit(appointmentData);
   };
 
@@ -86,8 +85,8 @@ export function AppointmentForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Select Doctor</FormLabel>
-                  <Select 
-                    onValueChange={field.onChange} 
+                  <Select
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
@@ -107,15 +106,15 @@ export function AppointmentForm({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="type"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Appointment Type</FormLabel>
-                  <Select 
-                    onValueChange={field.onChange} 
+                  <Select
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
@@ -135,7 +134,7 @@ export function AppointmentForm({
                 </FormItem>
               )}
             />
-            
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField
                 control={form.control}
@@ -147,22 +146,22 @@ export function AppointmentForm({
                       <Input
                         type="date"
                         {...field}
-                        min={new Date().toISOString().split('T')[0]} // Prevent past dates
+                        min={new Date().toISOString().split('T')[0]}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="time"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Preferred Time</FormLabel>
-                    <Select 
-                      onValueChange={field.onChange} 
+                    <Select
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -192,7 +191,7 @@ export function AppointmentForm({
                 )}
               />
             </div>
-            
+
             <FormField
               control={form.control}
               name="notes"
@@ -213,19 +212,19 @@ export function AppointmentForm({
               )}
             />
           </CardContent>
-          
+
           <CardFooter className="flex justify-end space-x-2 bg-gray-50 px-6 py-4">
             {onCancel && (
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 type="button"
                 onClick={onCancel}
               >
                 Cancel
               </Button>
             )}
-            <Button 
-              variant="default" 
+            <Button
+              variant="default"
               type="submit"
               disabled={isLoading}
             >
